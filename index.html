@@ -505,18 +505,53 @@
                         heading.style.fontFamily = `"${selectedBodyFont}", serif`;
                     }
                 });
+                
+                saveToURL();
             }
 
             function updateTheme() {
                 const theme = themeSelect.value;
                 document.documentElement.setAttribute("data-theme", theme);
                 localStorage.setItem("theme", theme);
+                saveToURL();
             }
 
             function initializeTheme() {
                 const savedTheme = localStorage.getItem("theme") || "light";
                 themeSelect.value = savedTheme;
                 document.documentElement.setAttribute("data-theme", savedTheme);
+            }
+
+            function saveToURL() {
+                const params = new URLSearchParams();
+                params.set('titleFont', titleFont.value);
+                params.set('bodyFont', bodyFont.value);
+                params.set('theme', themeSelect.value);
+                params.set('applyTitleToHeadings', applyTitleToHeadings.checked);
+                
+                const newURL = window.location.pathname + '?' + params.toString();
+                window.history.replaceState({}, '', newURL);
+            }
+
+            function loadFromURL() {
+                const params = new URLSearchParams(window.location.search);
+                
+                if (params.has('titleFont')) {
+                    titleFont.value = params.get('titleFont');
+                }
+                if (params.has('bodyFont')) {
+                    bodyFont.value = params.get('bodyFont');
+                }
+                if (params.has('theme')) {
+                    themeSelect.value = params.get('theme');
+                    document.documentElement.setAttribute("data-theme", params.get('theme'));
+                    localStorage.setItem("theme", params.get('theme'));
+                }
+                if (params.has('applyTitleToHeadings')) {
+                    applyTitleToHeadings.checked = params.get('applyTitleToHeadings') === 'true';
+                }
+                
+                updateFonts();
             }
 
             // Event listeners
@@ -528,6 +563,7 @@
 
             // Initialize with default fonts and theme
             initializeTheme();
+            loadFromURL();
             updateFonts();
         </script>
     </body>
