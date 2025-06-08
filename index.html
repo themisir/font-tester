@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blog Font Tester</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Serif+Pro:wght@300;400;600;700&family=Crimson+Text:wght@400;600;700&family=Lora:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=Vollkorn:wght@300;400;500;600;700&family=Bitter:wght@300;400;500;600;700&family=Alegreya:wght@300;400;500;700&family=Cardo:wght@400;700&family=Neuton:wght@300;400;700&family=Work+Sans:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --bg-primary: #f8fafc;
+                --bg-secondary: #ffffff;
+                --bg-controls: rgba(255, 255, 255, 0.95);
+                --text-primary: #1a1a1a;
+                --text-secondary: #333;
+                --text-muted: #666;
+                --border-color: #e1e5e9;
+                --shadow-color: rgba(0, 0, 0, 0.1);
+                --shadow-controls: rgba(0, 0, 0, 0.1);
+                --checkbox-bg: rgba(102, 126, 234, 0.05);
+                --checkbox-border: rgba(102, 126, 234, 0.1);
+            }
+
+            [data-theme="dark"] {
+                --bg-primary: #0f172a;
+                --bg-secondary: #1e293b;
+                --bg-controls: rgba(30, 41, 59, 0.95);
+                --text-primary: #f1f5f9;
+                --text-secondary: #e2e8f0;
+                --text-muted: #94a3b8;
+                --border-color: #334155;
+                --shadow-color: rgba(0, 0, 0, 0.3);
+                --shadow-controls: rgba(0, 0, 0, 0.4);
+                --checkbox-bg: rgba(102, 126, 234, 0.15);
+                --checkbox-border: rgba(102, 126, 234, 0.3);
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    sans-serif;
+                background: var(--bg-primary);
+                min-height: 100vh;
+                padding: 20px;
+                transition: background-color 0.3s ease;
+            }
+
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 300px;
+                gap: 30px;
+                height: calc(100vh - 40px);
+            }
+
+            .preview-section {
+                background: var(--bg-secondary);
+                border-radius: 20px;
+                box-shadow: 0 20px 60px var(--shadow-color);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                transition:
+                    background-color 0.3s ease,
+                    box-shadow 0.3s ease;
+            }
+
+            .controls-section {
+                background: var(--bg-controls);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 25px;
+                box-shadow: 0 20px 60px var(--shadow-controls);
+                height: fit-content;
+                border: 1px solid var(--border-color);
+                transition:
+                    background-color 0.3s ease,
+                    box-shadow 0.3s ease,
+                    border-color 0.3s ease;
+            }
+
+            .preview-content {
+                padding: 50px 60px;
+                overflow-y: auto;
+                flex: 1;
+                line-height: 1.7;
+            }
+
+            .article-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                line-height: 1.2;
+                color: var(--text-primary);
+                transition: color 0.3s ease;
+            }
+
+            .article-date {
+                color: var(--text-muted);
+                font-size: 0.95rem;
+                margin-bottom: 35px;
+                font-weight: 400;
+                transition: color 0.3s ease;
+            }
+
+            .article-content {
+                font-size: 1.1rem;
+                color: var(--text-secondary);
+                max-width: 700px;
+                transition: color 0.3s ease;
+            }
+
+            .article-content h2 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 40px 0 20px 0;
+                color: var(--text-primary);
+                line-height: 1.3;
+                transition: color 0.3s ease;
+            }
+
+            .article-content h3 {
+                font-size: 1.4rem;
+                font-weight: 500;
+                margin: 30px 0 15px 0;
+                color: var(--text-primary);
+                line-height: 1.3;
+                transition: color 0.3s ease;
+            }
+
+            .article-content p {
+                margin-bottom: 20px;
+                line-height: 1.8;
+            }
+
+            .controls-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 25px;
+                color: var(--text-primary);
+                text-align: center;
+                transition: color 0.3s ease;
+            }
+
+            .control-group {
+                margin-bottom: 25px;
+            }
+
+            .control-label {
+                display: block;
+                font-weight: 500;
+                margin-bottom: 8px;
+                color: var(--text-secondary);
+                font-size: 0.95rem;
+                transition: color 0.3s ease;
+            }
+
+            select {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid var(--border-color);
+                border-radius: 12px;
+                font-size: 0.95rem;
+                background: var(--bg-secondary);
+                color: var(--text-secondary);
+                transition: all 0.3s ease;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+                background-position: right 12px center;
+                background-repeat: no-repeat;
+                background-size: 16px;
+                padding-right: 40px;
+            }
+
+            [data-theme="dark"] select {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            }
+
+            select:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+                padding: 15px;
+                background: var(--checkbox-bg);
+                border-radius: 12px;
+                border: 1px solid var(--checkbox-border);
+                transition:
+                    background-color 0.3s ease,
+                    border-color 0.3s ease;
+            }
+
+            .checkbox {
+                width: 18px;
+                height: 18px;
+                accent-color: #667eea;
+            }
+
+            .checkbox-label {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                font-weight: 400;
+                margin: 0;
+                transition: color 0.3s ease;
+            }
+
+            .randomize-button {
+                width: 100%;
+                padding: 15px 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-top: 20px;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            }
+
+            .randomize-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            }
+
+            .randomize-button:active {
+                transform: translateY(0);
+            }
+
+            @media (max-width: 1024px) {
+                .container {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+
+                .preview-content {
+                    padding: 30px 40px;
+                }
+
+                .article-title {
+                    font-size: 2rem;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .preview-content {
+                    padding: 25px 30px;
+                }
+
+                .article-title {
+                    font-size: 1.8rem;
+                }
+
+                .article-content {
+                    font-size: 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="preview-section">
+                <div class="preview-content">
+                    <h1 class="article-title" id="articleTitle">
+                        The Art of Minimalist Web Design: Less is More
+                    </h1>
+                    <div class="article-date" id="articleDate">
+                        Published on March 15, 2024
+                    </div>
+                    <div class="article-content" id="articleContent">
+                        <p>
+                            In today's digital landscape, minimalist web design
+                            has emerged as more than just a trend—it's become a
+                            philosophy that champions clarity, functionality,
+                            and user experience above all else. By stripping
+                            away unnecessary elements and focusing on what truly
+                            matters, minimalist design creates powerful,
+                            memorable experiences that resonate with users.
+                        </p>
+
+                        <h2>The Philosophy Behind Minimalism</h2>
+                        <p>
+                            Minimalism in web design isn't about being sparse or
+                            empty; it's about being intentional. Every element
+                            on the page should serve a purpose, whether it's
+                            guiding the user's attention, providing crucial
+                            information, or facilitating an action. This
+                            approach requires designers to think critically
+                            about what truly adds value to the user experience.
+                        </p>
+
+                        <p>
+                            The famous architect Ludwig Mies van der Rohe once
+                            said, "Less is more," and this principle has never
+                            been more relevant than in today's information-rich
+                            digital environment. When users are bombarded with
+                            countless stimuli, a clean, focused design can be a
+                            breath of fresh air.
+                        </p>
+
+                        <h3>Key Principles of Minimalist Design</h3>
+                        <p>
+                            Effective minimalist design relies on several core
+                            principles. White space, or negative space, is
+                            perhaps the most crucial element—it gives content
+                            room to breathe and helps create visual hierarchy.
+                            Typography becomes even more important when there
+                            are fewer elements competing for attention, making
+                            font choice and spacing critical decisions.
+                        </p>
+
+                        <p>
+                            Color palette restrictions force designers to be
+                            more creative and intentional with their choices. A
+                            limited color scheme creates cohesion and prevents
+                            visual chaos, while strategic use of color can
+                            create powerful focal points and guide user
+                            behavior.
+                        </p>
+
+                        <h2>The Benefits of Going Minimal</h2>
+                        <p>
+                            Beyond aesthetic appeal, minimalist design offers
+                            practical benefits. Websites load faster with fewer
+                            elements, improving both user experience and search
+                            engine rankings. Maintenance becomes simpler when
+                            there are fewer components to update and debug. Most
+                            importantly, users can focus on what matters most
+                            without distractions.
+                        </p>
+
+                        <p>
+                            Studies have shown that users make judgments about
+                            website credibility within milliseconds of landing
+                            on a page. Clean, professional minimalist designs
+                            often convey trustworthiness and competence more
+                            effectively than cluttered alternatives.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h2 class="controls-title">Font Controls</h2>
+
+                <div class="control-group">
+                    <label class="control-label" for="titleFont">
+                        Title Font
+                    </label>
+                    <select id="titleFont"></select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="bodyFont">
+                        Body Font
+                    </label>
+                    <select id="bodyFont"></select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="themeSelect">Theme</label>
+                    <select id="themeSelect">
+                        <option value="light">Light Mode</option>
+                        <option value="dark">Dark Mode</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input
+                        type="checkbox"
+                        id="applyTitleToHeadings"
+                        class="checkbox"
+                        checked
+                    />
+                    <label for="applyTitleToHeadings" class="checkbox-label">
+                        Apply title font to headings in content
+                    </label>
+                </div>
+
+                <button class="randomize-button" id="randomizeButton">
+                    🎲 Randomize Fonts
+                </button>
+            </div>
+        </div>
+
+        <script>
+            const titleFont = document.getElementById("titleFont");
+            const bodyFont = document.getElementById("bodyFont");
+            const themeSelect = document.getElementById("themeSelect");
+            const applyTitleToHeadings = document.getElementById(
+                "applyTitleToHeadings",
+            );
+            const randomizeButton = document.getElementById("randomizeButton");
+            const articleTitle = document.getElementById("articleTitle");
+            const articleDate = document.getElementById("articleDate");
+            const articleContent = document.getElementById("articleContent");
+
+            // Font arrays for randomization
+            const titleFonts = [
+                "Playfair Display",
+                "Spectral",
+                "Vollkorn",
+                "Alegreya",
+                "Cardo",
+                "Merriweather",
+                "Source Serif Pro",
+                "Crimson Text",
+                "Cormorant Garamond",
+                "EB Garamond",
+                "Lora",
+                "Bitter",
+                "Neuton",
+                "Space Grotesk",
+                "Montserrat",
+                "Poppins",
+                "Inter",
+            ];
+
+            const bodyFonts = [
+                "Inter",
+                "Work Sans",
+                "IBM Plex Sans",
+                "DM Sans",
+                "Plus Jakarta Sans",
+                "Nunito Sans",
+                "Fira Sans",
+                "Source Sans Pro",
+                "Spectral",
+                "Vollkorn",
+                "Alegreya",
+                "Source Serif Pro",
+                "Lora",
+                "Merriweather",
+                "Open Sans",
+                "Roboto",
+                "Crimson Text",
+                "EB Garamond",
+                "Poppins",
+                "Montserrat",
+            ];
+
+            createOptions(titleFont, titleFonts);
+            createOptions(bodyFont, bodyFonts);
+
+            function createOptions(select, options) {
+                options.forEach((option) => {
+                    const element = select.appendChild(
+                        document.createElement("option"),
+                    );
+                    element.value = option;
+                    element.innerText = option;
+                });
+            }
+
+            function getRandomFont(fontArray) {
+                return fontArray[Math.floor(Math.random() * fontArray.length)];
+            }
+
+            function randomizeFonts() {
+                const randomTitleFont = getRandomFont(titleFonts);
+                const randomBodyFont = getRandomFont(bodyFonts);
+
+                titleFont.value = randomTitleFont;
+                bodyFont.value = randomBodyFont;
+
+                // Randomly toggle the checkbox too (70% chance to keep it checked)
+                applyTitleToHeadings.checked = Math.random() > 0.3;
+
+                updateFonts();
+            }
+
+            function updateFonts() {
+                const selectedTitleFont = titleFont.value;
+                const selectedBodyFont = bodyFont.value;
+                const applyToHeadings = applyTitleToHeadings.checked;
+
+                // Apply title font
+                articleTitle.style.fontFamily = `"${selectedTitleFont}", serif`;
+
+                // Apply body font
+                articleContent.style.fontFamily = `"${selectedBodyFont}", serif`;
+                articleDate.style.fontFamily = `"${selectedBodyFont}", serif`;
+
+                // Apply title font to headings in content if checkbox is checked
+                const headings = articleContent.querySelectorAll("h2, h3");
+                headings.forEach((heading) => {
+                    if (applyToHeadings) {
+                        heading.style.fontFamily = `"${selectedTitleFont}", serif`;
+                    } else {
+                        heading.style.fontFamily = `"${selectedBodyFont}", serif`;
+                    }
+                });
+            }
+
+            function updateTheme() {
+                const theme = themeSelect.value;
+                document.documentElement.setAttribute("data-theme", theme);
+                localStorage.setItem("theme", theme);
+            }
+
+            function initializeTheme() {
+                const savedTheme = localStorage.getItem("theme") || "light";
+                themeSelect.value = savedTheme;
+                document.documentElement.setAttribute("data-theme", savedTheme);
+            }
+
+            // Event listeners
+            titleFont.addEventListener("change", updateFonts);
+            bodyFont.addEventListener("change", updateFonts);
+            themeSelect.addEventListener("change", updateTheme);
+            applyTitleToHeadings.addEventListener("change", updateFonts);
+            randomizeButton.addEventListener("click", randomizeFonts);
+
+            // Initialize with default fonts and theme
+            initializeTheme();
+            updateFonts();
+        </script>
+    </body>
+</html>
